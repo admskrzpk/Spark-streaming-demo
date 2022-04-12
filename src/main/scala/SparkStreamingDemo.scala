@@ -1,9 +1,11 @@
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.upper
 
 object SparkStreamingDemo extends App {
-  val path = "C:\\spark\\Spark-streaming\\files"
+  val path = if (args.length > 0) args(0)
+  else "C:\\spark\\Spark-streaming\\files"
 
-  import org.apache.spark.sql.types.{LongType, StringType, StructField, StructType}
+  import org.apache.spark.sql.types._
 
   val spark = SparkSession
     .builder
@@ -23,11 +25,11 @@ object SparkStreamingDemo extends App {
     .schema(mySchema)
     .load(path)
 
-  val output = data.writeStream
+  val newFile = data
+  .withColumn("upper_city", upper(data("city")))
+
+  val output = newFile.writeStream
     .format("console")
     .start
   output.awaitTermination
 }
-
-//  val newFile = data
-//    .withColumn("upper_city", upper(data("city")))

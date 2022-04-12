@@ -1,0 +1,1 @@
+./spark-submit /mnt/c/spark/Spark-streaming/target/scala-2.12/spark-streaming_2.12-0.1.0-SNAPSHOT.jar /mnt/c/spark/Spark-streaming/files
